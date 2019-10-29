@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>AngularDynamicLoader</title>
+  <base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+</head>
+
+<body>
+  <app-root></app-root>
+  <div id="container"></div>
+  <div>
+    <label for="sel"></label>
+    <select name="sel" id="sel">
+      <option value="hello">Hello</option>
+      <option value="app-form">Form</option>
+    </select>
+    <button onclick="insert()">Submit</button>
+  </div>
+</body>
+<script>
+  let insertCount = 0;
+
+  function insert() {
+    inject(document.getElementById('sel').value);
+  }
+
+  function inject(componentSelector) {
+    console.log(componentSelector)
+    const container = document.getElementById('container');
+    container.innerHTML = '';
+    const root = document.createElement('ng-element');
+    container.appendChild(root);
+
+    loadNgComponent(root, componentSelector, instance => {
+      instance.count = insertCount++;
+    });
+  }
+</script>
+
+</html>
